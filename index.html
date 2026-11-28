@@ -1145,7 +1145,7 @@ function renderSheet(){const h=document.getElementById("sheetHost");const p=S.sh
 function openSheet(id){S.sheet=id;if(!seen[id]){seen[id]=1;saveSeen();render()}else renderSheet()}
 
 /* ---------- events ---------- */
-const hashRoute=()=>{if(location.hash==="#sesizari"||location.hash==="#grupul-nostru"){S.tab="grup"}};hashRoute();
+const hashRoute=()=>{if(location.hash==="#sesizari"||location.hash==="#grupul-nostru"){S.tab="grup"}if(location.hash==="#zapada"){S.tab="zapada"}};hashRoute();
 window.addEventListener("hashchange",()=>{S.sheet=null;hashRoute();render();scrollTo(0,0)});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&S.sheet){S.sheet=null;renderSheet()}if((e.key==="Enter"||e.key===" ")&&e.target.matches("[data-open],.hex")){e.preventDefault();e.target.click()}});
 document.addEventListener("click",async e=>{
