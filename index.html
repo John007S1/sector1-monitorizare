@@ -1057,7 +1057,7 @@ function snDecRow(d){const[k,c]=SN_KIND[d.tip]||[d.tip_t||d.tip||"Decizie","--mu
  return`<div class="sn-dec"><div class="apc-h"><span class="tag" style="background:var(${c});color:#fff">${esc(k)}</span>${lv.length?`<span class="tag" style="background:var(--fill)">${esc(lv.join(" + "))}</span>`:""}<span class="tag" style="background:var(--fill);color:var(${on?"--good":"--muted"})">${on?"în vigoare":"a expirat"}</span><span class="meta">nr. ${esc(d.nr??"")} · ${esc(snDate(d.ts))}</span></div>${lines.length?`<div class="meta" style="margin-top:6px">${lines.map(esc).join(" ")}</div>`:""}${tm?`<div class="sn-terms">${tm}</div>`:""}</div>`}
 function scrZapada(){
  const st=snowState(),sn=st.sn,per=S.snowPer||7;
- const L=snowPosts(per),people=L.filter(p=>p.theme==="snow"||(!isSite(p)&&p.srcType!=="pagina")),off=L.filter(p=>!people.includes(p));
+ const L=snowPosts(per),people=L.filter(p=>p.theme==="snow"||(COMPLAINT.includes(p.theme)&&!isSite(p)&&p.srcType!=="pagina")),off=L.filter(p=>!people.includes(p));
  const big=st.live?["Intervenție în desfășurare","Comandamentul de deszăpezire lucrează acum. Utilajele intră pe străzi în ordinea urgențelor.","--urgent"]
   :st.inForce.length?[SN_KIND[st.inForce[0].tip]?.[0]||"Decizie în vigoare","Decizia nr. "+(st.inForce[0].nr??"")+" a Comandamentului este în vigoare.","--warn"]
   :st.before?["Încă nu e sezonul",`Programul de iarnă începe pe ${new Date(st.start).toLocaleDateString("ro-RO",{day:"numeric",month:"long"})} și ține până pe ${new Date(st.end).toLocaleDateString("ro-RO",{day:"numeric",month:"long"})}.`,"--muted"]
@@ -1070,7 +1070,7 @@ function scrZapada(){
   <div class="kpi" style="--c:var(--t-snow)"><span class="k-ico">${svg(THEMES.snow.p)}</span><b>${sn?.strazi??"–"}</b><span>străzi în planul de iarnă</span></div>
   <div class="kpi" style="--c:var(--accent)"><span class="k-ico">${svg(I.map)}</span><b>${sn?.programe?.total??"–"}</b><span>trasee de utilaje${nv.length===3?` (${nv[0]} poduri, ${nv[1]} artere, ${nv[2]} secundare)`:""}</span></div>
   <div class="kpi" style="--c:var(--warn)"><span class="k-ico">${svg(I.alert)}</span><b>${st.dec.length}</b><span>decizii ale Comandamentului</span></div>
-  <div class="kpi" style="--c:var(--urgent)"><span class="k-ico">${svg(I.posts)}</span><b>${people.length}</b><span>plângeri pe Facebook ${per===1?"azi":`în ${per} zile`}</span></div>
+  <div class="kpi" style="--c:var(--urgent)"><span class="k-ico">${svg(I.posts)}</span><b>${people.length}</b><span>plângeri despre zăpadă ${per===1?"azi":`în ${per} zile`}</span></div>
  </section>
  <section><h2>Deciziile Comandamentului<span></span></h2><div class="glass">${st.dec.length?st.dec.map(snDecRow).join(""):`<div class="empty">Nicio decizie publicată încă. Când Comandamentul decide o alarmare sau o urgență, o vezi aici.</div>`}</div></section>
  <section><h2>Termenele din plan<span></span></h2><div class="glass"><div class="sn-terms">
@@ -1080,8 +1080,8 @@ function scrZapada(){
   <div class="sn-t"><span>Rigole, intersecții și trotuarul din fața casei (al proprietarului)</span><b>24 de ore</b></div>
  </div><div class="meta" style="margin-top:8px">Termenele curg de la încetarea ninsorii. Pluguitul începe la ordinul Comandamentului sau când stratul trece de 5 cm. Sursa: HCL Sector 1 nr. 340/2026.</div></div></section>
  ${perSeg("snowper",per)}
- <section><h2>Ce spun oamenii · ${people.length}<span></span></h2>${listCard(people,"Nicio plângere despre zăpadă în perioada aleasă.",false)}</section>
- <section><h2>Anunțuri și presă · ${off.length}<span></span></h2>${listCard(off,"Niciun anunț despre deszăpezire în perioada aleasă.",false)}</section>
+ <section><h2>Ce spun oamenii · ${people.length}<span></span></h2>${listCard(people,"Nicio plângere despre zăpadă în perioada aleasă. Când ninge, aici apar străzile nedeszăpezite, poleiul și trotuarele reclamate de oameni.",false)}</section>
+ <section><h2>Anunțuri, presă și distribuiri · ${off.length}<span></span></h2>${listCard(off,"Niciun anunț despre deszăpezire în perioada aleasă.",false)}</section>
  <div class="row-btns" style="margin-top:6px">
   <a class="btn ghost small" href="https://deszapezire.primariasector1.ro/strada-mea" target="_blank" rel="noopener" style="text-decoration:none">${svg(I.search)}Caută o stradă ↗</a>
   <a class="btn ghost small" href="https://aproape.primariasector1.ro/sesizare?sursa=deszapezire" target="_blank" rel="noopener" style="text-decoration:none">${svg(I.plus)}Sesizare în Aproape ↗</a>
